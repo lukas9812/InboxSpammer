@@ -18,5 +18,10 @@ public class SenderRepository : ISenderRepository
         return senders;
     }
 
+    public async Task Create(SenderDto sender)
+    {
+        await _collection.InsertOneAsync(sender);
+    }
+
     readonly IMongoCollection<SenderDto> _collection;
 }

@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using SuperSpammer.Engine.Models;
 using SuperSpammer.Infastructure;
 
@@ -6,10 +7,11 @@ namespace SuperSpammer.Storage;
 
 public class MongoRepository : IMongoRepository
 {
-    public MongoRepository(MongoDbSettings settings)
+    public MongoRepository(IOptions<MongoDbSettings> settings)
     {
-        var client = new MongoClient(settings.ConnectionString);
-        _database = client.GetDatabase(settings.DatabaseName);
+        _settings = settings.Value;
+        var client = new MongoClient(_settings.ConnectionString);
+        _database = client.GetDatabase(_settings.DatabaseName);
     }
     
     public IMongoCollection<T> GetCollection<T>(string name) 
@@ -25,4 +27,5 @@ public class MongoRepository : IMongoRepository
     }
     
     readonly IMongoDatabase _database;
+    readonly MongoDbSettings _settings;
 }
