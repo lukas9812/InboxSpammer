@@ -27,13 +27,16 @@ public class Login : PageModel
             // You can store session data or authentication cookie here
             //HttpContext.Session.SetString("UserEmail", Input.Email);
             
-            
-            
             return RedirectToPage("/Index");
         }
 
         ErrorMessage = "Invalid email or password.";
         return Page();
+    }
+    
+    public IActionResult OnPostRegister()
+    {
+        return RedirectToPage("/Account/Register");
     }
 }
 

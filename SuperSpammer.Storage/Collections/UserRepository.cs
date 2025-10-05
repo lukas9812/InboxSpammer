@@ -12,14 +12,14 @@ public class UserRepository : IUserRepository
         _collection = repository.GetCollection<UserDto>("Users");
     }
 
-    public async Task Create(UserDto user)
+    public async Task CreateAsync(UserDto user)
     {
         await _collection.InsertOneAsync(user);
     }
 
-    public async Task<UserDto> GetByUsername(string id)
+    public async Task<UserDto> GetByUsername(string username)
     {
-        return await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        return await _collection.Find(x => x.Username == username).FirstOrDefaultAsync();
     }
     
     readonly IMongoCollection<UserDto> _collection;
