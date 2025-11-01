@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace SuperSpammer.Common;
 
-public class UserDto
+public class UserDto : IdentityUser
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]

@@ -1,11 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SuperSpammer.Infastructure;
+using SuperSpammer.Storage.Infrastructure;
 
 namespace SuperSpammer.WebApi.Pages;
 
 public class Login : PageModel
 {
+    public Login(IUserRepository userRepository, IAccountService accountService)
+    {
+        _userRepository = userRepository;
+        _accountService = accountService;
+    }
+    
     [BindProperty]
     public LoginInput Input { get; set; } = new();
 
@@ -21,6 +29,8 @@ public class Login : PageModel
         if (!ModelState.IsValid)
             return Page();
 
+        var user = _userRepository.GetByEmail(Input.Email).Result;
+        var result = _accountService.ValidateCredentials(Input.Email, Input.Password).Result;
         // Simple demo authentication
         if (Input.Email == "admin@example.com" && Input.Password == "Password123")
         {
@@ -29,6 +39,7 @@ public class Login : PageModel
             
             return RedirectToPage("/Index");
         }
+        
 
         ErrorMessage = "Invalid email or password.";
         return Page();
@@ -36,8 +47,11 @@ public class Login : PageModel
     
     public IActionResult OnPostRegister()
     {
-        return RedirectToPage("/Account/Register");
+        return RedirectToPage("/Register");
     }
+
+    readonly IUserRepository _userRepository;
+    readonly IAccountService _accountService;
 }
 
 public class LoginInput

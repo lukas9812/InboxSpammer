@@ -22,6 +22,11 @@ public class UserRepository : IUserRepository
         return await _collection.Find(x => x.Username == username).FirstOrDefaultAsync();
     }
     
+    public async Task<UserDto> GetByEmail(string email)
+    {
+        return await _collection.Find(x => x.Email == email).FirstOrDefaultAsync();
+    }
+    
     readonly IMongoCollection<UserDto> _collection;
 
 }

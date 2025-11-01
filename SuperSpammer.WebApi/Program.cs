@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using SuperSpammer.Common;
+using SuperSpammer.Common.Services;
 using SuperSpammer.Engine;
 using SuperSpammer.Engine.Models;
 using SuperSpammer.Infastructure;
@@ -15,11 +18,19 @@ builder.Services.Configure<MongoDbSettings>(
 
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<IAccountService, AccountService>();
 builder.Services.AddSingleton<IMongoRepository, MongoRepository>();
 builder.Services.AddSingleton<ISmtpClientService, SmtpClientService>();
 builder.Services.AddScoped<IAttendantService, AttendantService>();
 builder.Services.AddScoped<ISenderRepository, SenderRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPasswordHasher<UserDto>, PasswordHasher<UserDto>>();
+
+// Pokračovat s vytvořením AppDbContext !!
+// builder.Services.AddIdentity<UserDto, IdentityRole>()
+//     .AddEntityFrameworkStores<ApplicationDbContext>()
+//     .AddDefaultTokenProviders();
+
 
 var app = builder.Build();
 

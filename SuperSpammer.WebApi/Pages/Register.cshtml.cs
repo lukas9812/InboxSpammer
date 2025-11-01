@@ -9,8 +9,6 @@ namespace SuperSpammer.WebApi.Pages;
 
 public class RegisterModel : PageModel
 {
-    
-
     public RegisterModel(IUserRepository userRepository, IPasswordHasher<UserDto> passwordHasher)
     {
         _userRepository = userRepository;
